@@ -5,7 +5,6 @@ const ENDPOINT = "/accounts";
 const getAllAccount = async () => {
   try {
     const response = await api.get(`${ENDPOINT}`);
-    console.log("response ", response);
     return response;
   } catch (error) {
     throw new Error(error);
@@ -32,20 +31,4 @@ const registerAccount = async (data) => {
   }
 };
 
-const uploadPhoto = async (data) => {
-  try {
-    var formData = new FormData();
-    formData.append("files", data, data.name);
-
-    const response = await api.post(`/upload`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return response;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-
-export { getAllAccount, getAccountBySlug, registerAccount, uploadPhoto };
+export { getAllAccount, getAccountBySlug, registerAccount };

@@ -3,11 +3,12 @@ import { getAllAccount, getAccountBySlug } from "@/api/services/account";
 import Image from "next/image";
 import ButtonLinks from "@/components/buttons/ButtonLinks";
 import { redirect } from "next/dist/server/api-utils";
+import Button from "@/components/buttons/Button";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function DetailAccount({ data }) {
-  console.log("data ", data);
+  console.log(data);
   return (
     <main
       className={`flex min-h-screen w-full sm:max-w-2xl m-auto flex-col items-center p-8 sm:p-24 ${inter.className}`}
@@ -21,13 +22,23 @@ export default function DetailAccount({ data }) {
           layout="fill"
         />
       </div>
-      <div className="flex flex-col items-center gap-2 w-full mb-8">
+      <div className="flex flex-col items-center gap-2 w-full mb-2">
         <h3 className="text-2xl font-bold ">{data.attributes.fullname}</h3>
         <p className="text-lg">{data.attributes.bio}</p>
       </div>
+      <a href={`/link/create/${data.id}`} className="mb-8">
+        <Button
+          buttonType="primary"
+          size="md"
+          outlined={true}
+          wide={false}
+          className={"rounded-full"}
+        >
+          Add Links
+        </Button>
+      </a>
       <div className="flex flex-col gap-5 w-full">
         {data.attributes.links.data.map((value, index) => {
-          console.log("value ", value.attributes.status === "active");
           if (value.attributes.status === "active")
             return (
               <a href={value.attributes.url} target="_blank" key={index}>
@@ -50,7 +61,6 @@ export default function DetailAccount({ data }) {
 export async function getStaticPaths() {
   const accounts = await getAllAccount();
   const dataAccounts = await accounts.data.data;
-  console.log("accounts ", dataAccounts);
 
   const paths = dataAccounts.map((value) => {
     return {
@@ -77,25 +87,3 @@ export async function getStaticProps({ params }) {
     revalidate: 10,
   };
 }
-
-// // getStaticPaths adalah function yang nanti akan diexecute oleh next.js ketika project di build
-// // yang fungsinya untuk menghasilkan file .html apa saja berdasarkan dynamic routes nya
-// export async function getStaticPaths() {
-//     // fetching datanya untuk keperluan ada dynamic routes apa aja
-//     const accounts = await getAllAccounts();
-//     const dataAccounts = await accounts.data.data;
-
-//     // deklarasi variable untuk menentukan ada slug apa aja yang nantinya menghasilkan
-//     // file .html
-//     const paths = dataAccounts.map((value) => {
-//       return {
-//         params: { slug: value.attributes.slug },
-//       };
-//     });
-
-//     // return ini yang nantinya akan memberitahu next.js akan ada path apa saja
-//     // berdasarkan slug dari BE.
-//     // blocking tujuannya untuk nanti ketika user mengetik suatu path yang
-//     // tidak ada di list slug, akan di return error/tidak ada
-//     return { paths, fallback: 'blocking' }
-//   }

@@ -14,12 +14,7 @@ export default function Home() {
       setAccounts(accounts.data.data);
     };
     getAllAccounts();
-    // getAccountBySlug("exceldeo");
   }, []);
-
-  useEffect(() => {
-    console.log("accounts ", accounts);
-  }, [accounts]);
 
   return (
     <main

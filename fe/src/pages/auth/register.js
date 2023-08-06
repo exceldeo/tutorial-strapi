@@ -5,7 +5,8 @@ import React from "react";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { registerAccount, uploadPhoto } from "@/api/services/account";
+import { registerAccount } from "@/api/services/account";
+import { uploadPhoto } from "@/api/services/uploadFile";
 
 function RegisterPage() {
   const registrationForm = useFormik({
